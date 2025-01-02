@@ -53,4 +53,9 @@ public class PostRepository : IPostRepository
 
     return post;
   }
+
+  public async Task CommitAsync()
+  {
+    await _context.SaveChangesAsync();
+  }
 }

@@ -44,8 +44,8 @@ public class UserRepository : IUserRepository
     };
   }
 
-  public Task CommitAsync()
+  public async Task CommitAsync()
   {
-    return _context.SaveChangesAsync();
+    await _context.SaveChangesAsync();
   }
 }

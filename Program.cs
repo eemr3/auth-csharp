@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using AuthBlog.Data;
@@ -61,11 +62,11 @@ builder.Services.AddAuthentication(options =>
 // Configuração de autorização/permisão
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("adimin", policy => policy.RequireClaim("role", "admin"));
-    options.AddPolicy("user", policy => policy.RequireClaim("role", "user"));
-    options.AddPolicy("editor", policy => policy.RequireClaim("role", "editor"));
+    options.AddPolicy("admin", policy => policy.RequireClaim(ClaimTypes.Role, "admin"));
+    options.AddPolicy("user", policy => policy.RequireClaim(ClaimTypes.Role, "user"));
+    options.AddPolicy("editor", policy => policy.RequireClaim(ClaimTypes.Role, "editor"));
     options.AddPolicy("adminOrEditor", policy => policy.RequireAssertion(context =>
-        context.User.HasClaim("role", "admin") || context.User.HasClaim("role", "editor")));
+        context.User.HasClaim(ClaimTypes.Role, "admin") || context.User.HasClaim(ClaimTypes.Role, "editor")));
 });
 
 var app = builder.Build();

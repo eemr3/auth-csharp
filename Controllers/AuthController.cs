@@ -31,7 +31,7 @@ public class AuthController : ControllerBase
       }
       var Token = _tokenGenerator.Generator(user);
 
-      return Ok(new { asscess_token = Token });
+      return Ok(new { access_token = Token });
     }
     catch (UnauthorizedException)
     {

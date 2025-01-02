@@ -10,4 +10,6 @@ public interface IPostRepository
   Task<Post> GetPostById(int id);
   Task<Post> UpdatePost(Post post);
   void DeletePost(int id);
+
+  public Task CommitAsync();
 }

@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AuthBlog.Models;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AuthBlog.Services.Token;
@@ -39,7 +40,7 @@ public class TokenGenerator
   private ClaimsIdentity AddClaims(User user)
   {
     var claims = new ClaimsIdentity();
-
+    claims.AddClaim(new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub, user.UserId.ToString()));
     claims.AddClaim(new Claim(ClaimTypes.Email, user.Email!));
     claims.AddClaim(new Claim(ClaimTypes.Name, user.Name!));
     claims.AddClaim(new Claim(ClaimTypes.Role, user.Role!));
