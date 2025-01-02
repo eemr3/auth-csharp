@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using AuthBlog.DTO;
 using AuthBlog.Models;
 using AuthBlog.Exceptions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Claims;
 
 namespace AuthBlog.Controllers;
 
@@ -40,13 +43,41 @@ public class UserController : ControllerBase
 
     }
   }
-
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+  [Authorize]
   [HttpGet("{userId}")]
   public async Task<IActionResult> GetUser(int userId)
   {
     try
     {
       var result = await _userService.GetUserAsync(userId);
+      return Ok(result);
+    }
+    catch (KeyNotFoundException ex)
+    {
+      return NotFound(new { message = ex.Message });
+    }
+  }
+
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+  [Authorize]
+  [HttpGet("me")]
+  public async Task<IActionResult> GetMe()
+  {
+    try
+    {
+      var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+      if (email == null)
+      {
+        return Unauthorized(
+        new
+        {
+          error = "User Unauthorized",
+          details = "You must provide a valid token to access this resource"
+        });
+      }
+
+      var result = await _userService.GetUserByEmailAsync(email);
       return Ok(result);
     }
     catch (KeyNotFoundException ex)
