@@ -48,7 +48,7 @@ builder.Services.AddAuthentication(options =>
             context.HandleResponse();
             context.Response.StatusCode = 401;
             context.Response.ContentType = "application/json";
-            var errorMessage = new { error = "User Unauthorized", details = "ou must provide a valid token to access this resource" };
+            var errorMessage = new { error = "User Unauthorized", details = "You must provide a valid token to access this resource" };
             var jsonErroMessage = JsonSerializer.Serialize(errorMessage);
             return context.Response.WriteAsync(jsonErroMessage);
         }

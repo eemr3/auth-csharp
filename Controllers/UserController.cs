@@ -44,7 +44,7 @@ public class UserController : ControllerBase
     }
   }
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-  [Authorize]
+  [Authorize(Roles = "admin")]
   [HttpGet("{userId}")]
   public async Task<IActionResult> GetUser(int userId)
   {
@@ -67,17 +67,8 @@ public class UserController : ControllerBase
     try
     {
       var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-      if (email == null)
-      {
-        return Unauthorized(
-        new
-        {
-          error = "User Unauthorized",
-          details = "You must provide a valid token to access this resource"
-        });
-      }
 
-      var result = await _userService.GetUserByEmailAsync(email);
+      var result = await _userService.GetUserByEmailAsync(email!);
       return Ok(result);
     }
     catch (KeyNotFoundException ex)
