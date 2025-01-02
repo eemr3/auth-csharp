@@ -7,22 +7,6 @@ Criei um cadastro de usuário e login, para um blog.
 
 **Back-end:** C# ASp Net Core 6, EntityFramework, SQL Server, docker-compose, Authentication e JwtBearer
 
-## Documentação da API
-
-Dentro do Asp Net Core já esta configurado um Swagger, para acessar:
-
-```bash
-https://localhost:7261/swagger
-```
-
-ou
-
-```bash
-http://localhost:5035/swagger
-```
-
-Ps.: Precisa configurar um certificado SSL para o acesso ao "https".
-
 ## Variáveis de Ambiente
 
 Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env
@@ -64,6 +48,22 @@ Inicie o servidor
 ```bash
   dotnet run
 ```
+
+## Documentação da API
+
+Dentro do Asp Net Core já esta configurado um Swagger, para acessar:
+
+```bash
+https://localhost:7261/swagger
+```
+
+ou
+
+```bash
+http://localhost:5035/swagger
+```
+
+Ps.: Precisa configurar um certificado SSL para o acesso ao "https".
 
 ## Autores
 
