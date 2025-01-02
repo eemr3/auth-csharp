@@ -1,3 +1,5 @@
+using AuthBlog.DTO;
+using AuthBlog.Mappers;
 using AuthBlog.Models;
 using AuthBlog.Repositories;
 
@@ -12,9 +14,13 @@ public class PostService : IPostService
     _postRepository = postRepository;
   }
 
-  public async Task<Post> CreatePost(Post post)
+  public async Task<PostDTOResponse> CreatePost(Post post)
   {
-    return await _postRepository.CreatePost(post);
+    var newPost = await _postRepository.CreatePost(post);
+    await _postRepository.CommitAsync();
+
+    var result = PostMapper.ToPostResponseDTO(newPost);
+    return result;
   }
 
   public void DeletePost(int id)
