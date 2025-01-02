@@ -15,27 +15,17 @@ public class UserRepository : IUserRepository
   {
     _context = context;
   }
-  public async Task<UserDTOResponse> AddUserAsync(User user)
+  public async Task<User> AddUserAsync(User user)
   {
     var addUser = await _context.Users.AddAsync(user);
+    Console.WriteLine(addUser.Entity);
 
-    return new UserDTOResponse
-    {
-      UserId = addUser.Entity.UserId,
-      Name = addUser.Entity.Name,
-      Email = addUser.Entity.Email,
-      Role = addUser.Entity.Role
-    };
+    return addUser.Entity;
   }
 
-  public async Task<User> GetUserByEmailAsync(string email)
+  public async Task<User?> GetUserByEmailAsync(string email)
   {
     var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-
-    if (user == null)
-    {
-      throw new UnauthorizedException("Email address or password provided is incorrect.");
-    }
 
     return user;
   }
