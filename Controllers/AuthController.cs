@@ -33,9 +33,9 @@ public class AuthController : ControllerBase
 
       return Ok(new { asscess_token = Token });
     }
-    catch (UnauthorizedException ex)
+    catch (UnauthorizedException)
     {
-      return Unauthorized(new { message = ex.Message });
+      return Unauthorized(new { message = "Email address or password provided is incorrect." });
     }
   }
 }
