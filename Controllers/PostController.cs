@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using AuthBlog.DTO;
 using AuthBlog.Models;
 using AuthBlog.Services.PostService;
@@ -19,23 +20,33 @@ public class PostController : ControllerBase
   }
 
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-  [Authorize(Roles = "adminOrEditor")]
+  [Authorize(Policy = "adminOrEditor")]
   [HttpPost]
   public async Task<IActionResult> CreatePost([FromBody] ProductDTORequest request)
   {
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
     var post = new Post
     {
       Title = request.Title,
       Content = request.Content,
-      UserId = request.UserId
+      UserId = Convert.ToInt32(userId)
     };
     var result = await _postService.CreatePost(post);
     return CreatedAtAction(nameof(GetPost), new { postId = result.PostId }, result);
   }
 
+
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+  [Authorize]
   [HttpGet]
   public async Task<IActionResult> GetPosts()
   {
+
+    foreach (var claim in User.Claims)
+    {
+      Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+    }
     var posts = await _postService.GetPosts();
     return Ok(posts);
   }
@@ -57,16 +68,17 @@ public class PostController : ControllerBase
   }
 
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-  [Authorize(Roles = "adminOrEditor")]
+  [Authorize(Policy = "adminOrEditor")]
   [HttpPut("{postId}")]
   public async Task<IActionResult> UpdatePost(int postId, [FromBody] ProductDTORequest request)
   {
+    var userId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
     var post = new Post
     {
       PostId = postId,
       Title = request.Title,
       Content = request.Content,
-      UserId = request.UserId
+      UserId = Convert.ToInt32(userId)
     };
     try
     {
@@ -80,7 +92,7 @@ public class PostController : ControllerBase
   }
 
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-  [Authorize(Roles = "admin")]
+  [Authorize(Policy = "admin")]
   [HttpDelete("{postId}")]
   public IActionResult DeletePost(int postId)
   {
