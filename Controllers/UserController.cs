@@ -44,7 +44,7 @@ public class UserController : ControllerBase
     }
   }
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-  [Authorize(Roles = "admin")]
+  [Authorize(Policy = "admin")]
   [HttpGet("{userId}")]
   public async Task<IActionResult> GetUser(int userId)
   {
