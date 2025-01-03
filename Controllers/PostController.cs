@@ -39,11 +39,6 @@ public class PostController : ControllerBase
   [HttpGet]
   public async Task<IActionResult> GetPosts()
   {
-
-    foreach (var claim in User.Claims)
-    {
-      Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-    }
     var posts = await _postService.GetPosts();
     return Ok(posts);
   }

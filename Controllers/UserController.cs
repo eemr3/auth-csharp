@@ -66,7 +66,9 @@ public class UserController : ControllerBase
   {
     try
     {
-      var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+      var token = HttpContext.User.Identity as ClaimsIdentity;
+
+      var email = token?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
       var result = await _userService.GetUserByEmailAsync(email!);
       return Ok(result);
