@@ -58,6 +58,12 @@ Instale as dependências
   dotnet restore
 ```
 
+Crie as tabelas no banco de dados
+
+```bash
+  dotnet ef database update
+```
+
 Inicie o servidor
 
 ```bash
