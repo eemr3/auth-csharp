@@ -36,9 +36,6 @@ public class PostController : ControllerBase
     return CreatedAtAction(nameof(GetPost), new { postId = result.PostId }, result);
   }
 
-
-  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-  [Authorize]
   [HttpGet]
   public async Task<IActionResult> GetPosts()
   {
