@@ -7,6 +7,21 @@ Criei um cadastro de usuário e login, para um blog.
 
 **Back-end:** C# ASp Net Core 6, EntityFramework, SQL Server, docker-compose, Authentication e JwtBearer
 
+## Pré-requisitos
+
+Antes de começar, verifique se você atendeu aos seguintes requisitos:
+
+- SDK do .NET Core 6 instalado
+- Docker e docker-compose instalados
+
+## Instalação
+
+Você precisará instalar a CLI do Entity Framework Core:
+
+```bash
+  dotnet tool install --global dotnet-ef
+```
+
 ## Variáveis de Ambiente
 
 Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env
