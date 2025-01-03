@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace AuthBlog.Models;
 
@@ -16,5 +17,7 @@ public class Post
 
   [Required(ErrorMessage = "UserId is required")]
   public int UserId { get; set; }
-  public User User { get; set; } = null!;
+
+  [JsonIgnore]
+  public virtual User User { get; set; } = null!;
 }
